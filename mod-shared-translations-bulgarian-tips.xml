@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- MOD by AcTePuKc ####################################################################################################################### -->
+<root>
+  <array id="TIPS">
+    <node value="
+This Bulgarian localization also includes many compatible mod-added strings when those mods are installed.
+" />
+    <node value="
+If some mod-added text still appears in English after changing active mods, restart the game fully instead of only applying mods.
+" />
+    <node value="
+When MoleEater's Quality of Life modpack is active, this translation mod can also provide its own loading tips and changelog entries.
+" />
+  </array>
+</root>
+<!-- MOD by AcTePuKc ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->

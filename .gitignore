@@ -1,0 +1,12 @@
+# Local test/install copies
+live-mod-copy/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+
+# Local archives
+*.zip
+

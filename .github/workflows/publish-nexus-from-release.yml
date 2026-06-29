@@ -1,0 +1,81 @@
+name: Publish Nexus From Release
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: GitHub release tag to download and publish
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    env:
+      REPOSITORY: AcTePuKc/dysmantle-bulgarian-translations
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve release tag
+        id: resolve_tag
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "release") {
+            $tag = "${{ github.event.release.tag_name }}"
+          } else {
+            $tag = "${{ inputs.tag }}"
+          }
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            throw "Release tag is required."
+          }
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $version = $tag
+          if ($version.StartsWith('v')) {
+            $version = $version.Substring(1)
+          }
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Download release zip asset
+        id: download_asset
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Force -Path .\release-download | Out-Null
+          gh release download "${{ steps.resolve_tag.outputs.tag }}" --repo $env:REPOSITORY --pattern "*.zip" --dir .\release-download
+          $asset = Get-ChildItem -LiteralPath .\release-download -Filter *.zip | Select-Object -First 1
+          if ($null -eq $asset) {
+            throw "No .zip asset was downloaded from the GitHub release."
+          }
+          "asset_path=$($asset.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Read Nexus file description
+        id: nexus_description
+        shell: pwsh
+        run: |
+          $description = Get-Content -LiteralPath .\release\nexus-file-description.txt -Raw
+          "description<<EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $description | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Publish to Nexus
+        uses: Nexus-Mods/upload-action@v1.0.0-beta.7
+        with:
+          api_key: ${{ secrets.NEXUS_API_KEY }}
+          file_group_id: ${{ secrets.NEXUS_FILE_GROUP_ID }}
+          filename: ${{ steps.download_asset.outputs.asset_path }}
+          version: ${{ steps.resolve_tag.outputs.version }}
+          display_name: Bulgarian Translations
+          description: ${{ steps.nexus_description.outputs.description }}
+          file_category: main
+          archive_existing_file: true
+          primary_mod_manager_download: true
+          allow_mod_manager_download: true
+          show_requirements_pop_up: false
