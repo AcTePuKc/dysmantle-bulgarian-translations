@@ -14,9 +14,11 @@ __pycache__/
 
 # Local archives
 *.zip
+release/package-build/
 
 # Local localization backups / previews
 localizations/bg-BG/language_backup.xml
+localizations/bg-BG/language.before_qol_tip_injection.xml
 localizations/bg-BG/2.png
 localizations/bg-BG/4.png
 localizations/bg-BG/icon.before_manual_v2.png
