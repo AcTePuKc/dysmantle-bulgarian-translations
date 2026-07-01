@@ -5,9 +5,9 @@
     <node id="title" value="Български превод" />
   </array>
   <array id="CHANGELOG">
-    <node epoch="1782763200" id="0.1.0"
+    <node epoch="1782903600" id="0.1.0"
       value="
-- първоначална тестова версия на българския мод
+- първа публична версия на българския мод
 - вградена съвместимост с модовете на MoleEater - Quality of Life
 " />
   </array>

@@ -1,6 +1,11 @@
 # Local test/install copies
 live-mod-copy/
 
+# Internal working notes
+coverage-suspects.md
+dysmantle-context.md
+glossary-bg.md
+
 # OS/editor noise
 .DS_Store
 Thumbs.db
@@ -10,3 +15,12 @@ __pycache__/
 # Local archives
 *.zip
 
+# Local localization backups / previews
+localizations/bg-BG/language_backup.xml
+localizations/bg-BG/2.png
+localizations/bg-BG/4.png
+localizations/bg-BG/icon.before_manual_v2.png
+localizations/bg-BG/icon_backup_v3.png
+localizations/bg-BG/icon_candidate_v2.png
+localizations/bg-BG/_icon_previews/
+localizations/bg-BG/backup_20260629_icons/
