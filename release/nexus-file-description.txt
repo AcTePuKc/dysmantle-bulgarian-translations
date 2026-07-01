@@ -1,9 +1,10 @@
 Bulgarian localization for DYSMANTLE.
 
-Initial public test version.
+Updated public release.
 
 Includes:
 - Bulgarian text for the main game
 - compatibility with supported mod-added strings
 - compatibility metadata for MoleEater's Quality of Life changelog and loading tips integration
-
+- synchronized translation structure following MoleEater's shared translation layout
+- additional fixes for UI text, terminology, missing lines, and special character rendering

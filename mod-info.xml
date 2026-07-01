@@ -3,7 +3,7 @@
 <root>
   <array id="INFO">
     <node id="load_priority" value="0" />
-    <node id="version" value="0.1.0" />
+    <node id="version" value="0.2.0" />
     <node id="author" value="AcTePuKc" />
     <node id="title" value="Bulgarian Translations" />
     <node id="description" value="Bulgarian localization for DYSMANTLE.
