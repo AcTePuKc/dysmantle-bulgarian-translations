@@ -1,0 +1,83 @@
+name: Build GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to package and publish
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Resolve ref
+        id: resolve_ref
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $tag = "${{ inputs.tag }}"
+          } else {
+            $tag = "${{ github.ref_name }}"
+          }
+          if ([string]::IsNullOrWhiteSpace($tag)) {
+            throw "Release tag is required."
+          }
+          $version = $tag
+          if ($version.StartsWith('v')) {
+            $version = $version.Substring(1)
+          }
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.resolve_ref.outputs.tag }}
+
+      - name: Build clean release package
+        id: package
+        shell: pwsh
+        run: |
+          $repo = Get-Location
+          $stageRoot = Join-Path $repo 'dist\package-build\shared-translations-bulgarian'
+          $bgRoot = Join-Path $stageRoot 'localizations\bg-BG'
+          $fontRoot = Join-Path $bgRoot 'fonts'
+          $zipPath = Join-Path $repo ("dist\shared-translations-bulgarian-" + "${{ steps.resolve_ref.outputs.version }}" + ".zip")
+
+          if (Test-Path $stageRoot) {
+            Remove-Item -LiteralPath $stageRoot -Recurse -Force
+          }
+          if (Test-Path $zipPath) {
+            Remove-Item -LiteralPath $zipPath -Force
+          }
+
+          New-Item -ItemType Directory -Force -Path $fontRoot | Out-Null
+
+          Copy-Item -LiteralPath '.\mod-info.xml' -Destination $stageRoot
+          Copy-Item -LiteralPath '.\mod-shared-translations-bulgarian-changelog.xml' -Destination $stageRoot
+          Copy-Item -LiteralPath '.\mod-shared-translations-bulgarian-tips.xml' -Destination $stageRoot
+          Copy-Item -LiteralPath '.\preview.jpg' -Destination $stageRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\icon.png' -Destination $bgRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\info.xml' -Destination $bgRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\language.xml' -Destination $bgRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\fonts\small.mft' -Destination $fontRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\fonts\medium.mft' -Destination $fontRoot
+
+          Compress-Archive -LiteralPath $stageRoot -DestinationPath $zipPath -CompressionLevel Optimal
+          "zip_path=$zipPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.resolve_ref.outputs.tag }}
+          files: ${{ steps.package.outputs.zip_path }}
+          generate_release_notes: true
