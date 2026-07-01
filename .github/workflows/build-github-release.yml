@@ -67,6 +67,7 @@ jobs:
           Copy-Item -LiteralPath '.\mod-shared-translations-bulgarian-tips.xml' -Destination $stageRoot
           Copy-Item -LiteralPath '.\preview.jpg' -Destination $stageRoot
           Copy-Item -LiteralPath '.\localizations\bg-BG\icon.png' -Destination $bgRoot
+          Copy-Item -LiteralPath '.\localizations\bg-BG\icon-text.png' -Destination $bgRoot
           Copy-Item -LiteralPath '.\localizations\bg-BG\info.xml' -Destination $bgRoot
           Copy-Item -LiteralPath '.\localizations\bg-BG\language.xml' -Destination $bgRoot
           Copy-Item -LiteralPath '.\localizations\bg-BG\fonts\small.mft' -Destination $fontRoot

@@ -3,7 +3,9 @@
 <root>
   <array id="INFO">
     <node id="load_priority" value="0" />
-    <node id="version" value="0.2.0" />
+    <node id="version" value="0.2.1" />
+    <node id="required_program_id" value="DYSMANTLE" />
+    <node id="required_mod_api_version" value="1" />
     <node id="author" value="AcTePuKc" />
     <node id="title" value="Bulgarian Translations" />
     <node id="description" value="Bulgarian localization for DYSMANTLE.
