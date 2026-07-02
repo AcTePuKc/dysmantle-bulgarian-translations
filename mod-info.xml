@@ -2,17 +2,18 @@
 <!-- MOD by AcTePuKc ####################################################################################################################### -->
 <root>
   <array id="INFO">
-    <node id="load_priority" value="0" />
-    <node id="version" value="0.2.1" />
     <node id="required_program_id" value="DYSMANTLE" />
     <node id="required_mod_api_version" value="1" />
+    <node id="mod_version" value="0.2.2" />
+    <node id="title" value="Bulgarian Translation" />
     <node id="author" value="AcTePuKc" />
-    <node id="title" value="Bulgarian Translations" />
     <node id="description" value="Bulgarian localization for DYSMANTLE.
 
 Includes Bulgarian text for the main game and compatible mod-added strings.
 Quality of Life compatibility notes and changelog are supported when MoleEater's Quality of Life modpack is active.
 " />
+    <node id="tags" value="STANDALONE,LOCALIZATION" />
+    <node id="load_priority" value="0" />
   </array>
 </root>
 <!-- MOD by AcTePuKc ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
